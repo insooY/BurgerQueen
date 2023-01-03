@@ -20,21 +20,22 @@ public class Cart {
         System.out.println("-".repeat(60));
 
 //        여기에 장바구니 상품들을 옵션 정보와 함께 출력
+        printCartItemDetails();
 
         System.out.println("-".repeat(60));
-        System.out.println("합계 : %d원\n", /*금액 합계*/);
+        System.out.printf("합계 : %d원\n", calculateTotalPrice() /*금액 합계*/);
 
         System.out.println("이전으로 돌아가려면 엔터를 누루세요. ");
         scanner.nextLine();
     }
 
-    public void printCartItemDetails(){
+    protected void printCartItemDetails(){
 
         for (Product product : items){
             if (product instanceof BurgerSet){
                 BurgerSet burgerSet = (BurgerSet) product;
                 System.out.printf(
-                        "   %s %6원 (%s(케첩 %d개), %s(빨대 %s))\n",
+                        "   %s %6d원 (%s(케첩 %d개), %s(빨대 %s))\n",
                         product.getName(),
                         product.getPrice(),
                         burgerSet.getSide().getName(),
@@ -45,14 +46,14 @@ public class Cart {
             }
             else if (product instanceof Hamburger) {
                 System.out.printf(
-                        "   %-8s %6원 (단품)\n",
+                        "   %-8s %6d원 (단품)\n",
                         product.getName(),
                         product.getPrice()
                 );
             }
             else if (product instanceof Side) {
                 System.out.printf(
-                        "   %-8s %6원 (케첩 %d개)\n",
+                        "   %-8s %6d원 (케첩 %d개)\n",
                         product.getName(),
                         product.getPrice(),
                         ((Side) product).getKetchup()
@@ -60,7 +61,7 @@ public class Cart {
             }
             else if(product instanceof Drink){
                 System.out.printf(
-                        "   %-8s %6원 (빨대 %s)\n",
+                        "   %-8s %6d원 (빨대 %s)\n",
                         product.getName(),
                         product.getPrice(),
                         ((Drink) product).HasStraw()
@@ -69,7 +70,7 @@ public class Cart {
         }
     }
 
-    public int calculateTotalPrice(){
+    protected int calculateTotalPrice(){
         int totalPrice = 0;
         for(Product product : items){
             totalPrice += product.getPrice();
@@ -93,6 +94,12 @@ public class Cart {
             Hamburger hamburger = (Hamburger) product;
             if (hamburger.isBurgerSet()) product = composeSet(hamburger);
         }
+
+        Product newProduct;
+        if (product instanceof Hamburger) newProduct = new Hamburger((Hamburger)product);
+        else if (product instanceof Side) newProduct = new Side((Side)product);
+        else if (product instanceof Drink) newProduct = new Drink((Drink)product);
+        else newProduct = new BurgerSet((BurgerSet)product);
 
         Product[] newItems = new Product[items.length + 1];
         System.arraycopy(items, 0, newItems, 0, items.length);

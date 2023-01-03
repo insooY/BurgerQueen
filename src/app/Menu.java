@@ -61,8 +61,8 @@ public class Menu {
     }
 
     private static void printEachMenu(Product product, boolean printPrice) {
-        if (printPrice) System.out.printf("   (%d) %s %5dKacl %5원\n", product.getId(), product.getName(), product.getKcal(), product.getPrice());
-        else System.out.printf("   (%d) %s %5dKcal %5d원 \n", product.getId(), product.getName(), product.getKcal());
+        if (printPrice) System.out.printf("   (%d) %s %5dKcal %5d원\n", product.getId(), product.getName(), product.getKcal(), product.getPrice());
+        else System.out.printf("   (%d) %s %5dKcal\n", product.getId(), product.getName(), product.getKcal());
     }
 
 }
